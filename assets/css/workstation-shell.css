@@ -1,0 +1,282 @@
+:root {
+  --sidebar-width: 218px;
+  --text: var(--ink, #edf2ee);
+  --dim: #829193;
+  --line-soft: rgba(155, 178, 180, .13);
+  --shell-font-mono: "Cascadia Code", Consolas, "Courier New", monospace;
+  --shell-font-sans: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+html { scrollbar-color: #4a5a52 #101619; scrollbar-width: thin; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner { background: #101619; }
+::-webkit-scrollbar-thumb { background: #4a5a52; border: 2px solid #101619; }
+::-webkit-scrollbar-thumb:hover { background: #8eaa78; }
+:root:has(body[data-theme="light"]) { scrollbar-color: #9aa9a2 #e3e9e7; }
+:root:has(body[data-theme="light"])::-webkit-scrollbar-track,
+:root:has(body[data-theme="light"])::-webkit-scrollbar-corner { background: #e3e9e7; }
+:root:has(body[data-theme="light"])::-webkit-scrollbar-thumb { background: #9aa9a2; border-color: #e3e9e7; }
+:root:has(body[data-theme="light"])::-webkit-scrollbar-thumb:hover { background: #397a20; }
+
+.desktop-grid {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .28;
+  background-image: linear-gradient(rgba(150,178,175,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(150,178,175,.045) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, #000, transparent 88%);
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 52px var(--sidebar-width);
+}
+
+.topbar {
+  height: 54px;
+  position: fixed;
+  z-index: 1200;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 25px;
+  background: rgba(12, 17, 19, .96);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; width: calc(var(--sidebar-width) - 25px); flex: 0 0 calc(var(--sidebar-width) - 25px); color: var(--text); text-decoration: none; }
+.brand-mark { width: 40px; height: 40px; flex: 0 0 auto; object-fit: contain; }
+.brand-name { color: var(--text); font: 700 11px var(--shell-font-mono); letter-spacing: .08em; }
+.brand-separator { margin: 0 5px; color: var(--green); }
+.topbar-path { flex: 1; color: var(--muted); font: 10px var(--shell-font-mono); letter-spacing: .09em; }
+.path-dot,.connection span { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: var(--green); margin-right: 8px; box-shadow: 0 0 8px rgba(182,243,107,.5); }
+.path-slash { padding: 0 6px; color: var(--dim); }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.connection { color: var(--green); font: 9px var(--shell-font-mono); letter-spacing: .07em; white-space: nowrap; }
+.theme-toggle,.layout-toggle { min-height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 9px; color: var(--green); background: transparent; border: 1px solid #3b494c; font: 8px var(--shell-font-mono); cursor: pointer; }
+.layout-toggle { color: #70cad8; }
+.theme-toggle:hover,.layout-toggle:hover { background: rgba(255,255,255,.04); border-color: currentColor; }
+.theme-toggle i,.layout-toggle i { font-size: 12px; }
+.menu-toggle { display: none; color: var(--text); background: transparent; border: 0; font-size: 22px; cursor: pointer; }
+
+.sidebar { position: fixed; z-index: 1100; top: 54px; bottom: 42px; left: 0; width: var(--sidebar-width); padding: 25px 12px 14px; display: flex; flex-direction: column; overflow-y: auto; background: #131a1d; border-right: 1px solid var(--line); }
+.sidebar-label { padding: 0 11px 12px; color: #91a1a2; font: 9px var(--shell-font-mono); letter-spacing: .13em; }
+.side-link { min-height: 40px; display: flex; align-items: center; gap: 11px; padding: 0 10px; margin-bottom: 3px; color: var(--muted); border-left: 2px solid transparent; font: 12px var(--shell-font-sans); text-decoration: none; transition: background .18s, color .18s, border-color .18s; }
+.side-link:hover,.side-link.active { color: var(--text); background: #1b2528; border-left-color: var(--green); }
+.side-link.active .side-icon { color: var(--green); }
+.side-icon { width: 18px; text-align: center; font-size: 14px; }
+.side-key { margin-left: auto; color: #91a1a2; font: 9px var(--shell-font-mono); }
+.sidebar-spacer { flex: 1; min-height: 30px; }
+.sidebar-user { display: flex; align-items: center; gap: 9px; padding: 12px 6px; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.sidebar-user img { width: 34px; height: 34px; object-fit: cover; object-position: center 26%; border: 1px solid #546469; }
+.sidebar-user strong,.sidebar-user span { display: block; }
+.sidebar-user strong { color: var(--text); font: 9px var(--shell-font-mono); }
+.sidebar-user div span { margin-top: 4px; color: var(--dim); font: 8px var(--shell-font-mono); }
+.user-online { width: 6px; height: 6px; margin-left: auto; border-radius: 50%; background: var(--green); box-shadow: 0 0 7px rgba(182,243,107,.5); }
+.sidebar-foot { display: flex; justify-content: space-between; gap: 5px; padding: 13px 5px 0; color: #849497; font: 8px var(--shell-font-mono); }
+
+.taskbar { position: fixed; z-index: 1250; right: 0; bottom: 0; left: 0; height: 42px; display: flex; align-items: center; gap: 7px; padding: 0 12px; background: rgba(10,14,16,.97); border-top: 1px solid #364246; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
+.start-button,.taskbar-app { height: 30px; display: flex; align-items: center; gap: 7px; padding: 0 9px; color: #849292; font: 8px var(--shell-font-mono); text-decoration: none; border: 1px solid transparent; }
+.start-button { color: #c6d1cb; }
+.start-button:hover,.taskbar-app:hover { background: #1c2629; border-color: #425154; }
+.start-mark { width: 21px; height: 21px; display: grid; place-items: center; color: #122017; background: var(--green); font: 800 7px var(--shell-font-mono); }
+.taskbar-app i,.taskbar-network { color: var(--green); font-size: 12px; }
+.taskbar-app.active { color: var(--text); border-bottom: 2px solid var(--green); background: rgba(255,255,255,.035); }
+.taskbar-app[hidden] { display: none !important; }
+button.taskbar-app { color: inherit; background: transparent; cursor: pointer; }
+.taskbar-right { display: flex; align-items: center; gap: 9px; margin-left: auto; color: #b4c1bb; font: 8px var(--shell-font-mono); }
+
+@media (max-width: 1050px) {
+  :root { --sidebar-width: 190px; }
+  .topbar { gap: 16px; padding-inline: 18px; }
+  .sidebar { padding-inline: 9px; }
+}
+
+@media (max-width: 900px) {
+  :root { --sidebar-width: 0px; }
+  .app-shell { padding-left: 0; }
+  .topbar { height: 54px; gap: 10px; padding: 0 15px; }
+  .brand { width: auto; flex-basis: auto; margin-right: auto; }
+  .topbar-path { display: none; }
+  .connection { display: none; }
+  .menu-toggle { width: 36px; height: 36px; display: inline-grid; place-items: center; }
+  .sidebar { top: 54px; bottom: 42px; width: 240px; max-height: none; padding: 15px 12px; visibility: hidden; transform: translateX(-105%); transition: transform .22s ease, visibility .22s; box-shadow: 10px 14px 25px rgba(0,0,0,.32); }
+  .sidebar.is-open { visibility: visible; transform: translateX(0); }
+  .side-link { min-height: 44px; font-size: 13px; }
+}
+
+@media (max-width: 520px) {
+  .theme-toggle span,.layout-toggle span { display: none; }
+  .theme-toggle,.layout-toggle { width: 34px; min-height: 34px; padding: 0; }
+  .topbar-right { gap: 5px; }
+  .brand-name { font-size: 9px; }
+  .taskbar { padding-inline: 6px; gap: 2px; }
+  .start-button,.taskbar-app { padding-inline: 7px; }
+  .taskbar-app span,.start-button > span:last-child { display: none; }
+  body[data-layout="optimized"] .taskbar { gap: 2px; padding-inline: 6px; }
+  body[data-layout="optimized"] .start-button,body[data-layout="optimized"] .taskbar-app { gap: 4px; padding-inline: 5px; }
+}
+
+@media (max-width: 360px) {
+  .taskbar-date { display: none; }
+  .taskbar-right { gap: 5px; font-size: 7px; }
+}
+
+body[data-theme="light"] {
+  --bg: #edf1ef;
+  --text: #172225;
+  --ink: #172225;
+  --muted: #526366;
+  --dim: #58696c;
+  --line: #cbd4d2;
+  --line-soft: rgba(34,56,58,.13);
+  --green: #326b1e;
+  --blue: #18788a;
+  --orange: #b85c1f;
+  --paper: #edf1ef;
+  --soft: #f5f7f6;
+  color-scheme: light;
+  color: var(--text);
+  background-color: var(--bg);
+}
+body[data-theme="light"] .topbar,body[data-theme="light"] .taskbar { background: rgba(248,250,249,.97); }
+body[data-theme="light"] .desktop-grid { opacity: .42; background-image: linear-gradient(rgba(40,70,70,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(40,70,70,.055) 1px, transparent 1px); }
+body[data-theme="light"] .brand-name { color: #243437; }
+body[data-theme="light"] .sidebar { background: #e3e9e7; }
+body[data-theme="light"] .side-link:hover,body[data-theme="light"] .side-link.active { color: var(--text); background: #d7e0dd; }
+body[data-theme="light"] .sidebar-user img { border-color: #aab8b5; }
+body[data-theme="light"] .taskbar-app.active { color: #293b3d; }
+body[data-theme="light"] .taskbar-app:not(.active) { color: #526366; }
+body[data-theme="light"] .start-button { color: #36494b; }
+body[data-theme="light"] .start-mark { color: #fff; }
+body[data-theme="light"] .start-button:hover,body[data-theme="light"] .taskbar-app:hover { background: #e5ece8; border-color: #b8c5c1; }
+body[data-theme="light"] .theme-toggle { color: #315c22; border-color: #c0ccc8; }
+body[data-theme="light"] .layout-toggle { color: #176577; border-color: #c0ccc8; }
+body[data-theme="light"] .sidebar-label,body[data-theme="light"] .side-key,body[data-theme="light"] .sidebar-foot { color: #536568; }
+body[data-theme="light"] .taskbar-right { color: #36494b; }
+body[data-theme="light"] .taskbar-date { color: #465b5d; }
+body[data-theme="light"] .sidebar-user div span { color: #526366; }
+
+body[data-layout="normal"] { --sidebar-width: 218px; --topbar-height: 54px; --taskbar-height: 42px; }
+body[data-layout="normal"] .topbar { height: 54px; gap: 28px; padding-inline: 25px; }
+body[data-layout="normal"] .brand { width: calc(var(--sidebar-width) - 25px); flex-basis: calc(var(--sidebar-width) - 25px); gap: 10px; }
+body[data-layout="normal"] .brand-mark { width: 40px; height: 40px; }
+body[data-layout="normal"] .sidebar { top: 54px; bottom: 42px; width: 218px; padding: 25px 12px 14px; }
+body[data-layout="normal"] .side-link { min-height: 40px; gap: 11px; padding-inline: 10px; font-size: 12px; }
+body[data-layout="normal"] .taskbar { height: 42px; gap: 7px; padding-inline: 12px; }
+body[data-layout="normal"] .start-button,body[data-layout="normal"] .taskbar-app { height: 30px; gap: 7px; padding-inline: 9px; font-size: 8px; }
+body[data-layout="normal"] .cv-page-main--preview { margin-top: 67px; }
+body[data-layout="normal"] .cv-stage { padding: 36px 20px 52px; }
+body[data-layout="normal"] .cv-frame-shell { width: 100%; max-width: 880px; }
+body[data-layout="normal"] .cv-frame-wrap { padding: 16px; border-radius: 4px; }
+body[data-layout="normal"] .cv-page-main--gate { justify-content: center; align-items: center; padding: 24px 18px 40px; }
+body[data-layout="normal"] .box { width: min(94vw, 520px); padding: 34px; }
+body[data-layout="normal"] .maintenance-main { width: min(680px, calc(100% - 32px)); padding: 48px 0; }
+body[data-layout="normal"] .maintenance-content { padding: 48px; }
+body[data-layout="normal"] .maintenance-content h1 { font-size: clamp(30px, 6vw, 48px); }
+
+body[data-layout="optimized"] {
+  --sidebar-width: clamp(218px, 13vw, 310px);
+  --topbar-height: clamp(54px, 3.5vw, 76px);
+  --taskbar-height: clamp(42px, 2.5vw, 54px);
+}
+body[data-layout="optimized"] .app-shell { padding-bottom: calc(var(--taskbar-height) + 10px); }
+body[data-layout="optimized"] .topbar { height: var(--topbar-height); gap: clamp(16px, 1.5vw, 30px); padding-inline: clamp(20px, 2.2vw, 42px); }
+body[data-layout="optimized"] .brand { width: calc(var(--sidebar-width) - 25px); flex-basis: calc(var(--sidebar-width) - 25px); gap: clamp(10px, .8vw, 17px); }
+body[data-layout="optimized"] .brand-mark { width: clamp(34px, 2.2vw, 44px); height: clamp(34px, 2.2vw, 44px); }
+body[data-layout="optimized"] .brand-name { font-size: clamp(11px, .72vw, 15px); }
+body[data-layout="optimized"] .topbar-path { font-size: clamp(10px, .65vw, 14px); }
+body[data-layout="optimized"] .topbar-right { gap: clamp(10px, 1vw, 20px); }
+body[data-layout="optimized"] .connection { font-size: clamp(9px, .58vw, 12px); }
+body[data-layout="optimized"] .theme-toggle,body[data-layout="optimized"] .layout-toggle { min-height: clamp(34px, 2.2vw, 46px); gap: clamp(7px, .5vw, 11px); padding-inline: clamp(9px, .75vw, 16px); font-size: clamp(8px, .54vw, 11px); }
+body[data-layout="optimized"] .theme-toggle i,body[data-layout="optimized"] .layout-toggle i { font-size: clamp(12px, .8vw, 17px); }
+body[data-layout="optimized"] .sidebar { top: var(--topbar-height); bottom: var(--taskbar-height); padding: clamp(25px, 1.7vw, 38px) clamp(12px, .85vw, 20px) clamp(14px, 1vw, 22px); }
+body[data-layout="optimized"] .sidebar-label { padding: 0 clamp(11px, .75vw, 17px) clamp(12px, .8vw, 18px); font-size: clamp(9px, .56vw, 12px); }
+body[data-layout="optimized"] .side-link { min-height: clamp(42px, 2.8vw, 54px); gap: clamp(11px, .75vw, 17px); padding-inline: clamp(10px, .7vw, 15px); font-size: clamp(12px, .76vw, 16px); }
+body[data-layout="optimized"] .side-icon { width: clamp(18px, 1.2vw, 25px); font-size: clamp(14px, .9vw, 19px); }
+body[data-layout="optimized"] .side-key,body[data-layout="optimized"] .sidebar-foot { font-size: clamp(8px, .5vw, 11px); }
+body[data-layout="optimized"] .sidebar-user { gap: clamp(9px, .7vw, 14px); padding-block: clamp(12px, .85vw, 18px); }
+body[data-layout="optimized"] .sidebar-user img { width: clamp(34px, 2.3vw, 48px); height: clamp(34px, 2.3vw, 48px); }
+body[data-layout="optimized"] .sidebar-user strong { font-size: clamp(9px, .55vw, 12px); }
+body[data-layout="optimized"] .sidebar-user div span { font-size: clamp(8px, .49vw, 10px); }
+body[data-layout="optimized"] .taskbar { height: var(--taskbar-height); gap: clamp(7px, .6vw, 13px); padding-inline: clamp(12px, 1.1vw, 24px); }
+body[data-layout="optimized"] .start-button { height: clamp(30px, 2vw, 42px); gap: clamp(7px, .55vw, 12px); font-size: clamp(8px, .52vw, 11px); }
+body[data-layout="optimized"] .start-mark { width: clamp(21px, 1.5vw, 30px); height: clamp(21px, 1.5vw, 30px); font-size: clamp(7px, .45vw, 10px); }
+body[data-layout="optimized"] .taskbar-app { height: clamp(28px, 1.9vw, 39px); gap: clamp(7px, .55vw, 12px); padding-inline: clamp(10px, .8vw, 17px); font-size: clamp(8px, .52vw, 11px); }
+body[data-layout="optimized"] .taskbar-app i,body[data-layout="optimized"] .taskbar-network { font-size: clamp(12px, .8vw, 17px); }
+body[data-layout="optimized"] .taskbar-right { gap: clamp(9px, .7vw, 15px); font-size: clamp(8px, .52vw, 11px); }
+body[data-layout="optimized"] .cv-page-main--preview { margin-top: calc(var(--topbar-height) + 13px); }
+body[data-layout="optimized"] .cv-stage { padding-inline: clamp(20px, 3vw, 54px); }
+body[data-layout="optimized"] .cv-frame-shell { max-width: min(1120px, 78vw); }
+body[data-layout="optimized"] .cv-frame-label { font-size: clamp(12px, .78vw, 16px); }
+body[data-layout="optimized"] .cv-frame-wrap { padding: clamp(12px, 1.2vw, 22px); border-radius: 4px; background: #141c1f; }
+body[data-layout="optimized"] .cv-page-main--gate { padding-top: calc(var(--topbar-height) + 24px); padding-bottom: calc(var(--taskbar-height) + 24px); }
+body[data-layout="optimized"] .box { width: min(94vw, 620px); padding: clamp(34px, 3vw, 54px); border-radius: 4px; }
+body[data-layout="optimized"] .box h1 { font-size: clamp(30px, 2.2vw, 44px); }
+body[data-layout="optimized"] .box p { font-size: clamp(15px, .9vw, 19px); }
+body[data-layout="optimized"] .maintenance-main { width: min(900px, calc(100% - 48px)); }
+body[data-layout="optimized"] .maintenance-content { padding: clamp(32px, 5vw, 72px); }
+body[data-layout="optimized"] .maintenance-content h1 { font-size: clamp(42px, 4.2vw, 76px); }
+
+@media (min-width: 1600px) {
+  body[data-layout="optimized"] .cv-frame-shell { max-width: min(1320px, 80vw); }
+}
+
+@media (max-width: 900px) {
+  body[data-layout="optimized"] { --sidebar-width: 0px; --topbar-height: 54px; --taskbar-height: 42px; }
+  body[data-layout="optimized"] .topbar { padding-inline: 15px; gap: 10px; }
+  body[data-layout="optimized"] .brand { width: auto; flex-basis: auto; }
+  body[data-layout="optimized"] .sidebar { top: var(--topbar-height); bottom: var(--taskbar-height); width: 240px; padding: 15px 12px; }
+  body[data-layout="optimized"] .side-link { min-height: 44px; font-size: 13px; }
+  body[data-layout="optimized"] .cv-page-main--preview { margin-top: 67px; }
+  body[data-layout="optimized"] .cv-frame-shell { max-width: 100%; }
+  body[data-layout="optimized"] .cv-page-main--gate { padding-top: 79px; padding-bottom: 64px; }
+}
+
+@media (max-width: 520px) {
+  body[data-layout="optimized"] .theme-toggle span,body[data-layout="optimized"] .layout-toggle span { display: none; }
+  body[data-layout="optimized"] .theme-toggle,body[data-layout="optimized"] .layout-toggle { width: 34px; min-height: 34px; padding: 0; }
+  body[data-layout="optimized"] .topbar-right { gap: 5px; }
+  body[data-layout="optimized"] .brand-name { font-size: 9px; }
+}
+
+@media (max-width: 900px) {
+  body[data-layout="normal"] { --sidebar-width: 0px; --topbar-height: 54px; --taskbar-height: 42px; }
+  body[data-layout="normal"] .app-shell { padding-left: 0; }
+  body[data-layout="normal"] .topbar { height: 54px; gap: 10px; padding-inline: 15px; }
+  body[data-layout="normal"] .brand { width: auto; flex-basis: auto; margin-right: auto; }
+  body[data-layout="normal"] .topbar-path { display: none; }
+  body[data-layout="normal"] .connection { display: none; }
+  body[data-layout="normal"] .menu-toggle { width: 36px; height: 36px; display: inline-grid; place-items: center; }
+  body[data-layout="normal"] .sidebar { top: 54px; bottom: 42px; width: 240px; max-height: none; padding: 15px 12px; visibility: hidden; transform: translateX(-105%); transition: transform .22s ease, visibility .22s; }
+  body[data-layout="normal"] .sidebar.is-open { visibility: visible; transform: translateX(0); }
+  body[data-layout="normal"] .side-link { min-height: 44px; font-size: 13px; }
+  body[data-layout="normal"] .cv-page-main--preview { margin-top: 67px; }
+  body[data-layout="normal"] .cv-stage { padding: 24px 14px 42px; }
+  body[data-layout="normal"] .cv-page-main--gate { padding: 79px 18px 64px; }
+}
+
+@media (max-width: 560px) {
+  body[data-layout="normal"] .cv-stage { padding: 18px 10px 36px; }
+  body[data-layout="normal"] .cv-frame-wrap { padding: 8px; }
+}
+
+@media (max-width: 360px) {
+  .taskbar { gap: 1px; padding-inline: 4px; }
+  .start-button,.taskbar-app { gap: 3px; padding-inline: 3px; }
+  .taskbar-network { display: none; }
+  .taskbar-right { gap: 4px; font-size: 7px; }
+  body[data-layout="normal"] .taskbar { gap: 1px; padding-inline: 4px; }
+  body[data-layout="normal"] .start-button,body[data-layout="normal"] .taskbar-app { gap: 3px; padding-inline: 3px; }
+  body[data-layout="optimized"] .taskbar { gap: 1px; padding-inline: 4px; }
+  body[data-layout="optimized"] .start-button,body[data-layout="optimized"] .taskbar-app { gap: 3px; padding-inline: 3px; }
+}

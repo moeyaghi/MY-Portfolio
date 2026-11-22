@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <radialGradient id="aura">
+      <stop offset="0" stop-color="#b6f36b" stop-opacity=".22"/>
+      <stop offset=".58" stop-color="#b6f36b" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#b6f36b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle class="aura" cx="32" cy="32" r="25" fill="url(#aura)"/>
+  <path d="M11 47V18L22 32L32 21V47" stroke="#eef3ed" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M38 18L47 30L56 18M47 30V47" stroke="#ff9d55" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <g class="orbit-train">
+    <circle cx="-8" cy="0" r="1.8" fill="#ff9d55"/>
+    <circle cx="-4" cy="0" r="1.8" fill="#b6f36b"/>
+    <circle cx="0" cy="0" r="1.8" fill="#eef3ed"/>
+    <circle cx="4" cy="0" r="1.8" fill="#ff9d55"/>
+    <circle cx="8" cy="0" r="1.8" fill="#b6f36b"/>
+    <animateMotion dur="4.6s" path="M32 57H42C50 57 57 50 57 42V22C57 14 50 7 42 7H22C14 7 7 14 7 22V42C7 50 14 57 22 57H32Z" rotate="auto" calcMode="linear" keyTimes="0;0.12;0.88;1" keyPoints="0;0;1;1" repeatCount="indefinite"/>
+  </g>
+  <g class="static-dots" fill="#ff9d55">
+    <circle cx="24" cy="57" r="1.8"/>
+    <circle cx="28" cy="57" r="1.8" fill="#b6f36b"/>
+    <circle cx="32" cy="57" r="1.8" fill="#eef3ed"/>
+    <circle cx="36" cy="57" r="1.8"/>
+    <circle cx="40" cy="57" r="1.8" fill="#b6f36b"/>
+  </g>
+  <style>
+    .aura { opacity: .55; animation: aura-pulse 2.7s ease-in-out infinite; }
+    .static-dots { display: none; }
+    @keyframes aura-pulse { 0%, 100% { opacity: .28; } 50% { opacity: .78; } }
+    @media (prefers-reduced-motion: reduce) {
+      .orbit-train { display: none; }
+      .static-dots { display: inline; }
+      .aura { animation: none; opacity: .45; }
+    }
+  </style>
+</svg>

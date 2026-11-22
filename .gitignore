@@ -1,0 +1,6 @@
+/includes/config.local.php
+/var/*
+!/var/.htaccess
+error_log
+*.log
+.DS_Store

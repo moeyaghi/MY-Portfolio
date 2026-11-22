@@ -1,0 +1,47 @@
+Options -Indexes
+
+DirectoryIndex index.php index.html
+
+ErrorDocument 403 /404
+ErrorDocument 404 /404
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteRule ^favicon\.ico$ assets/icons/favicon.ico [L]
+
+  RewriteCond %{THE_REQUEST} \s/+pages/download-cv\.php[\s?] [NC]
+  RewriteRule ^pages/download-cv\.php$ /download-cv [R=302,L]
+
+  RewriteCond %{THE_REQUEST} \s/+pages/404\.php[\s?] [NC]
+  RewriteRule ^pages/404\.php$ /404 [R=302,L]
+
+  RewriteRule ^download-cv/?$ pages/download-cv.php [L,QSA]
+  RewriteRule ^404/?$ pages/404.php [L,QSA]
+  RewriteRule ^robots\.txt$ robots.php [L]
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  RewriteRule ^(?:includes|var|vendor)(?:/|$) - [F,NC,L]
+  RewriteRule ^dev-router\.php$ - [F,NC,L]
+  RewriteRule (^|/)(?:\.htaccess|composer\.(?:json|lock)|phpunit\.xml)$ pages/404.php [NC,L]
+  RewriteRule .+\.(?:env|ini|log|sql|bak|dist)$ pages/404.php [NC,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "same-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+<FilesMatch "^(\.htaccess|composer\.(json|lock)|phpunit\.xml)$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(env|ini|log|sql|bak|dist)$">
+  Require all denied
+</FilesMatch>
+
+<Files "error_log">
+  Require all denied
+</Files>

@@ -1,0 +1,13 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteCond %{HTTP_REFERER} !^$
+  RewriteCond %{HTTP_REFERER} !^https?://([a-z0-9-]+\.)*(localhost|127\.0\.0\.1|myaghi\.info|yaghi\.me|yaghi\.xyz)(:[0-9]+)?(/.*)?$ [NC]
+  RewriteRule \.(?:avif|gif|jpe?g|png|svg|webp)$ - [F,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Cache-Control "public, max-age=604800"
+</IfModule>
