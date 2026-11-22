@@ -615,7 +615,9 @@ body[data-theme="light"] .terminal-entry::placeholder { color: #397a20; }
   .terminal-entry::placeholder { animation: none; }
 }
 
-.security-dialog { position: fixed; inset: calc(var(--topbar-height,54px) + 12px) 0 calc(var(--taskbar-height,42px) + 12px); width: min(440px,calc(100vw - 28px)); max-width: none; max-height: none; margin: auto; padding: 0; overflow: auto; transform: translate(var(--window-offset-x,0px),var(--window-offset-y,0px)); color: #d3ded7; background: #101619; border: 1px solid #536367; border-radius: 3px; box-shadow: 0 24px 80px rgba(0,0,0,.62); }
+.security-backdrop { position: fixed; z-index: 1250; inset: 0; background: rgba(2,7,9,.78); backdrop-filter: blur(4px); }
+.security-dialog { position: fixed; z-index: 1260; inset: calc(var(--topbar-height,54px) + 12px) 0 calc(var(--taskbar-height,42px) + 12px); width: min(440px,calc(100vw - 28px)); max-width: none; max-height: none; margin: auto; padding: 0; overflow: auto; transform: translate(var(--window-offset-x,0px),var(--window-offset-y,0px)); color: #d3ded7; background: #101619; border: 1px solid #536367; border-radius: 3px; box-shadow: 0 24px 80px rgba(0,0,0,.62); }
+.security-dialog[open] { display: block; }
 .security-dialog.is-maximized { left: 10px; right: 10px; width: auto; }
 .security-dialog.is-maximized .security-window { min-height: 100%; }
 .security-dialog::backdrop { background: rgba(2,7,9,.78); backdrop-filter: blur(4px); }

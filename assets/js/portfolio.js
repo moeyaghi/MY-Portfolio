@@ -238,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var contactClose = document.getElementById("close-contact-terminal");
   var contactForm = document.getElementById("contact-form");
   var securityDialog = document.getElementById("contact-security");
+  var securityBackdrop = document.getElementById("contact-security-backdrop");
   var securityTaskbar = document.getElementById("open-security-taskbar");
   var securityClose = document.getElementById("cancel-contact-security");
   var securityCancel = document.getElementById("security-cancel-action");
@@ -265,6 +266,16 @@ document.addEventListener("DOMContentLoaded", function () {
       { key: "email", command: "set /p EMAIL=Email:", editCommand: "set /p EMAIL=Update email:", label: "Your email, then press Enter", placeholder: "Type your email here, then press Enter", editPlaceholder: "Update the email, then press Enter", maxLength: 254, autocomplete: "email" },
       { key: "message", command: "set /p MESSAGE=Message:", editCommand: "set /p MESSAGE=Update message:", label: "Your message, press Ctrl plus Enter for a new line, then Enter to send", placeholder: "Write message; Ctrl+Enter for a new line", editPlaceholder: "Update message; Ctrl+Enter for a new line", maxLength: 5000, autocomplete: "off" }
     ];
+
+    function openSecurityDialog() {
+      if (!securityDialog.open) { securityDialog.show(); }
+      if (securityBackdrop) { securityBackdrop.hidden = false; }
+    }
+
+    function closeSecurityDialog() {
+      if (securityDialog.open) { securityDialog.close(); }
+      if (securityBackdrop) { securityBackdrop.hidden = true; }
+    }
 
     function appendTerminalLine(text, className) {
       var line = document.createElement("p");
@@ -325,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ? "Complete the security check to continue."
           : "Loading security check...";
       }
-      if (!securityDialog.open) { securityDialog.showModal(); }
+      openSecurityDialog();
       if (!captchaScriptRequested) {
         captchaScriptRequested = true;
         var captchaScript = document.createElement("script");
@@ -568,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function cancelSecurityCheck() {
       resetCaptchaWidget();
-      if (securityDialog.open) { securityDialog.close(); }
+      closeSecurityDialog();
       resetWindowMaximize("security");
       if (securityTaskbar) {
         securityTaskbar.hidden = true;
@@ -580,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function minimizeSecurityCheck() {
-      if (securityDialog.open) { securityDialog.close(); }
+      closeSecurityDialog();
       if (securityTaskbar) {
         securityTaskbar.hidden = false;
         securityTaskbar.classList.add("active");
@@ -631,7 +642,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function terminalDialogClose() {
-      if (securityDialog.open) { securityDialog.close(); }
+      closeSecurityDialog();
       if (securityTaskbar) {
         securityTaskbar.hidden = true;
         securityTaskbar.classList.remove("active");
@@ -705,7 +716,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.onContactCaptchaVerified = function (token) {
       if (!token || terminalPhase !== "captcha") { return; }
       captchaTokenField.value = token;
-      if (securityDialog.open) { securityDialog.close(); }
+      closeSecurityDialog();
       resetWindowMaximize("security");
       if (securityTaskbar) {
         securityTaskbar.hidden = true;
@@ -778,7 +789,7 @@ document.addEventListener("DOMContentLoaded", function () {
       securityTaskbar.setAttribute("aria-expanded", "false");
       securityTaskbar.addEventListener("click", function () {
         if (terminalPhase === "captcha" && !securityDialog.open) {
-          securityDialog.showModal();
+          openSecurityDialog();
           securityTaskbar.classList.add("active");
           securityTaskbar.setAttribute("aria-expanded", "true");
           if (captchaStatus) { captchaStatus.textContent = "Complete the security check to continue."; }
@@ -806,6 +817,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (securityCancel) { securityCancel.addEventListener("click", cancelSecurityCheck); }
     if (securityClose) { securityClose.addEventListener("click", cancelSecurityCheck); }
+    if (securityBackdrop) { securityBackdrop.addEventListener("click", minimizeSecurityCheck); }
     if (securityRetry) {
       securityRetry.addEventListener("click", function () {
         if (captchaStatus) { captchaStatus.textContent = "Retrying security check..."; }

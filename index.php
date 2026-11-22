@@ -50,9 +50,9 @@ $recaptchaSettings = site_recaptcha_settings();
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=20261027a">
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/portfolio.css?v=20261122d">
+    <link rel="stylesheet" href="assets/css/portfolio.css?v=20261123b">
   <link rel="stylesheet" href="assets/css/workstation-shell.css?v=20261027o">
-  <script src="assets/js/portfolio.js?v=20261117a" defer></script>
+  <script src="assets/js/portfolio.js?v=20261123b" defer></script>
 </head>
 <body data-theme="dark" data-layout="optimized">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -221,6 +221,7 @@ $recaptchaSettings = site_recaptcha_settings();
           </div>
         </section>
       </dialog>
+      <div class="security-backdrop" id="contact-security-backdrop" hidden></div>
       <dialog class="security-dialog" id="contact-security" aria-labelledby="contact-security-title">
         <section class="security-window">
           <header class="security-titlebar">
